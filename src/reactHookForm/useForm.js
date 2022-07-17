@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useRef} from "react";
+import {useCallback, useEffect} from "react";
 import {emitter} from "./emitter";
 import useWatchFunction from "./useWatchFunction";
 
@@ -8,33 +8,35 @@ const useForm = (props= {}) => {
         defaultValues = {}
     } = props
 
-    const setValue = useCallback((name, value) => emitter.emit(name, value), [])
-
-    const reset = useCallback((fields) => {
-        const keys = Object.keys(fields)
-        keys.forEach((key) => emitter.emit(key, fields[key]))
-    }, [])
-
-    const control = useRef({
+    const control = {
         mode,
         data: {},
         onChange: (name) => (e) => {
             const { value } = e.target
             emitter.emit(name, value)
         },
-        methods: { setValue, reset },
+        methods: {},
         defaultValues,
-    })
+    }
 
-    const watch = useWatchFunction()
+    const watch = useWatchFunction({ control })
 
     useEffect(() => {
-        const keys = Object.keys(defaultValues)
-        keys.forEach((key) => emitter.emit(key, defaultValues[key]))
-
         return function clear() {
             emitter.removeAllListeners()
         }
+    }, [])
+
+    const setValue = useCallback((name, value) => emitter.emit(name, value), [])
+
+    const reset = useCallback((fields = {}) => {
+        const keys = Object.keys(fields)
+
+        if (!keys.length) {
+            return Object.keys(control.data).forEach((key) => emitter.emit(key, undefined))
+        }
+
+        keys.forEach((key) => emitter.emit(key, fields[key]))
     }, [])
 
     const handleSubmit = (callback) => () => {
@@ -42,8 +44,10 @@ const useForm = (props= {}) => {
         callback(control.current.data)
     }
 
+    Object.assign(control, { methods: { reset, setValue } })
+
     return {
-        control: control.current,
+        control,
         setValue,
         reset,
         watch,

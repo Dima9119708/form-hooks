@@ -1,4 +1,4 @@
-import {useEffect, useLayoutEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {emitter} from "./emitter";
 
 const useController = (props) => {
@@ -7,16 +7,18 @@ const useController = (props) => {
         control,
     } = props
 
-    const [value, setValue] = useState('')
+    const fields = control.data
+    const defaultValues = control.defaultValues
+
+    const [value, setValue] = useState(defaultValues[name])
 
     useEffect(() => {
         const subscribe = (value) => setValue(value)
         emitter.on(name, subscribe)
     }, [name])
 
-    useLayoutEffect(() => {
-        control.data[name] = value
-    })
+    defaultValues[name] = control.defaultValues[name]
+    fields[name] = value
 
     return {
         value,

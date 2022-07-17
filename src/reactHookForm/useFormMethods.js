@@ -5,7 +5,7 @@ const useFormMethods = (props) => {
         control
     } = props
 
-    const watch = useWatchFunction()
+    const watch = useWatchFunction({ control })
 
     return { ...control.methods, watch }
 }

@@ -7,9 +7,9 @@ const useWatch = (props= {}) => {
         control = {},
     } = props
 
-    const [value, setValue] = useState(() => {
+    const initialState = () => {
         if (typeof name === 'string') return control.defaultValues[name]
-        if (name === undefined) return control.data
+        if (name === undefined) return control.defaultValues
 
         if (Array.isArray(name)) {
             return name.reduce((acc, key, idx) => {
@@ -17,7 +17,9 @@ const useWatch = (props= {}) => {
                 return acc
             }, [])
         }
-    })
+    }
+
+    const [value, setValue] = useState(initialState)
 
     const onSubscribeOneField = () => {
         const subscribe = (value) => setValue(value)
@@ -32,7 +34,7 @@ const useWatch = (props= {}) => {
         keys.forEach(key => emitter.on(key, subscribe(key)))
     }
 
-    const onSubscribeSeveralField = () => {
+    const onSubscribeMultipleField = () => {
         const subscribe = (idx) => (value) => {
             setValue((prevState) => {
               prevState[idx] = value
@@ -46,7 +48,7 @@ const useWatch = (props= {}) => {
     useEffect(() => {
         if (typeof name === 'string') return onSubscribeOneField()
         if (name === undefined) return onSubscribeAllField()
-        if (Array.isArray(name)) return onSubscribeSeveralField()
+        if (Array.isArray(name)) return onSubscribeMultipleField()
     }, [name])
 
     return value
