@@ -1,6 +1,6 @@
 import useForm from "./useForm";
-import useWatch from "./useForm";
-import useController from "./useForm";
+import useWatch from "./useWatch";
+import useController from "./useController";
 
 export {
     useForm,

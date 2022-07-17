@@ -21,9 +21,7 @@ const useWatch = (props= {}) => {
 
     const onSubscribeOneField = () => {
         const subscribe = (value) => setValue(value)
-
         emitter.on(name, subscribe)
-        return () => emitter.off(name, subscribe)
     }
 
     const onSubscribeAllField = () => {
@@ -32,8 +30,6 @@ const useWatch = (props= {}) => {
         const subscribe = (name) => (value) => setValue(prevState => ({...prevState, [name]: value}))
 
         keys.forEach(key => emitter.on(key, subscribe(key)))
-
-        return () => keys.forEach(key => emitter.on(key, subscribe(key)))
     }
 
     const onSubscribeSeveralField = () => {
@@ -45,8 +41,6 @@ const useWatch = (props= {}) => {
         }
 
         name.forEach((key, idx) => emitter.on(key, subscribe(idx)))
-
-        return () => name.forEach((key, idx) => emitter.on(key, subscribe(idx)))
     }
 
     useEffect(() => {

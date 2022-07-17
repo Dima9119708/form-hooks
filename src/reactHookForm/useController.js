@@ -12,8 +12,6 @@ const useController = (props) => {
     useEffect(() => {
         const subscribe = (value) => setValue(value)
         emitter.on(name, subscribe)
-
-        return () => emitter.off(name, subscribe)
     }, [name])
 
     useLayoutEffect(() => {

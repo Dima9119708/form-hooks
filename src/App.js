@@ -1,8 +1,7 @@
-import logo from './logo.svg';
 import './App.css';
 import {useEffect} from "react";
-import {useForm, useController, useWatch} from "./reactHookForm";
-
+import { useForm, useController } from "./reactHookForm";
+import useFormMethods from "./reactHookForm/useFormMethods";
 
 const Input = ({ name, control }) => {
   const { value, onChange } = useController({
@@ -15,10 +14,7 @@ const Input = ({ name, control }) => {
 
 let childRender = 0;
 function FirstNameWatched({ control }) {
-  const values = useWatch({
-    control,
-    name: ['lastName4', 'lastName5']
-  });
+  const { watch }  = useFormMethods({ control })
 
   childRender++;
 
@@ -32,8 +28,9 @@ function FirstNameWatched({ control }) {
 let parentRender = 0;
 
 function App() {
-  const { control, reset, handleSubmit } = useForm({
+  const { control, handleSubmit } = useForm({
     defaultValues: {
+      lastName: 'sacsacascasc',
       lastName4: '',
       lastName5: '',
       lastName6: 'sacsacsacsac',
@@ -44,12 +41,7 @@ function App() {
   parentRender++;
 
   useEffect(() => {
-    reset({
-      // lastName4: 'lastName4',
-      // lastName5: 'lastName5',
-      // lastName6: 'lastName6',
-      // lastName7: 'lastName7',
-    })
+
   }, [])
 
   const onSubmit = (data) => {
@@ -59,7 +51,6 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
