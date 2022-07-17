@@ -1,9 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import {useEffect} from "react";
-import useWatch from "./hookForm/useWatch";
-import useForm from "./hookForm/useForm";
-import useController from "./hookForm/useController";
+import {useForm, useController, useWatch} from "./reactHookForm";
 
 
 const Input = ({ name, control }) => {
