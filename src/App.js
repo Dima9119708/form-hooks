@@ -1,6 +1,6 @@
 import './App.css';
 import {useEffect} from "react";
-import {useForm, useController, useWatch, useFomContext, useFormMethods, FormProvider} from "./reactHookForm";
+import {useForm, useController, useWatch, useFomContext, useFormMethods, FormProvider} from "./form-hooks";
 
 
 const Input = ({ name, control }) => {
@@ -28,11 +28,15 @@ function Watched1() {
 
 let childRender3 = 0;
 function Watched3() {
-  const { control } = useFomContext()
-  const { watch } = useFormMethods({ control })
+  const { watch, setValue } = useFomContext()
+  // const { watch } = useFormMethods({ control })
   watch('lastName3')
   watch(['lastName4', 'lastName5'])
   watch()
+
+  useEffect(() => {
+      setValue('lastName', 'sacsacsacsacsacsacas')
+  }, [])
 
   childRender3++;
 
@@ -65,7 +69,7 @@ let parentRender = 0;
 function App() {
   const { control, reset, setValue, handleSubmit } = useForm({
       defaultValues: {
-
+          lastName: ''
       }
   })
 

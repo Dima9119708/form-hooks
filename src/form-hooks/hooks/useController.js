@@ -13,7 +13,12 @@ const useController = (props) => {
     const [value, setValue] = useState(defaultValues[name])
 
     useEffect(() => {
-        const subscribe = (value) => setValue(value)
+        const subscribe = (value) => {
+            setValue(prevState => {
+                if (prevState === value) return prevState
+                return value
+            })
+        }
         emitter.on(name, subscribe)
     }, [name])
 
