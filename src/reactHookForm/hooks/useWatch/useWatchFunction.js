@@ -7,26 +7,31 @@ const useWatchFunction = (props) => {
 
     const { values, onSubscribeAllField, onSubscribeMultipleField, onSubscribeOneField  } = useWatchLogic({ control })
 
-    const watchSubscribe = useRef({
-        subscribe: (name) => {
-            if (typeof name === 'string') onSubscribeOneField(name)
-            if (name === undefined) onSubscribeAllField()
-            if (Array.isArray(name)) onSubscribeMultipleField(name)
-        },
-        isSubscribe: true
-    })
-
     return useCallback((name) => {
-        if (watchSubscribe.current.isSubscribe) {
-            watchSubscribe.current.subscribe(name)
-            watchSubscribe.current.isSubscribe = false
+        const events = emitter.eventNames()
+
+        const isString = typeof name === 'string'
+        const isUndefined = name === undefined
+        const isArray = Array.isArray(name)
+
+
+        if (isString && !events.includes(name)) {
+            onSubscribeOneField(name)
         }
 
-        if (typeof name === 'string') return values[name]
+        if (isArray && !events.some((event) => name.includes(event))) {
+            onSubscribeMultipleField(name)
+        }
 
-        if (name === undefined) return values
+        if(isUndefined && events.length !== Object.keys(control.defaultValues).length) {
+            onSubscribeAllField()
+        }
 
-        if (Array.isArray(name)) return name.reduce((acc, name, idx) => {
+        if (isString) return values[name]
+
+        if (isUndefined) return values
+
+        if (isArray) return name.reduce((acc, name, idx) => {
             acc[idx] = values[name]
             return acc
         }, [])

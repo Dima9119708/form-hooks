@@ -16,7 +16,6 @@ let childRender = 0;
 function Watched1() {
   const { control } = useFomContext()
   const lastName = useWatch({ control, name: ['lastName', 'lastName2'] })
-  console.log('watch => Watched1', lastName)
 
   childRender++;
 
@@ -31,7 +30,9 @@ let childRender3 = 0;
 function Watched3() {
   const { control } = useFomContext()
   const { watch } = useFormMethods({ control })
-  console.log('watch => Watched3', watch('lastName3'))
+  watch('lastName3')
+  watch(['lastName4', 'lastName5'])
+  watch()
 
   childRender3++;
 
