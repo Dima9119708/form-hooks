@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {emitter} from "../emitter";
 
 const useController = (props) => {
@@ -20,6 +20,13 @@ const useController = (props) => {
             })
         }
         emitter.on(name, subscribe)
+    }, [name])
+
+
+    const formatName = useMemo(() => {
+        console.log('name', name.split('.'))
+
+        return name
     }, [name])
 
     defaultValues[name] = control.defaultValues[name]

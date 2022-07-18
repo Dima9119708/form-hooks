@@ -35,7 +35,7 @@ function Watched3() {
   watch()
 
   useEffect(() => {
-      setValue('lastName', 'sacsacsacsacsacsacas')
+
   }, [])
 
   childRender3++;
@@ -53,7 +53,7 @@ function Watched2() {
   const { control } = useFomContext()
   const { watch } = useFormMethods({ control })
 
-  // console.log('watch => Watched2', watch())
+  console.log('watch => Watched2', watch())
 
   childRender2++;
 
@@ -67,9 +67,10 @@ function Watched2() {
 
 let parentRender = 0;
 function App() {
+
   const { control, reset, setValue, handleSubmit } = useForm({
       defaultValues: {
-          lastName: ''
+          lastName2: ''
       }
   })
 
@@ -119,7 +120,7 @@ function App() {
             <Input name="lastName4" control={control} />
 
           <label style={{ fontSize: 10 }}>lastName5</label>
-            <Input name="lastName5" control={control} />
+            <Input name="root.[0].lastName5" control={control} />
 
           <label style={{ fontSize: 10 }}>lastName6</label>
             <Input name="lastName6" control={control} />
