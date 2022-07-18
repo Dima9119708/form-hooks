@@ -15,8 +15,8 @@ const Input = ({ name, control }) => {
 let childRender = 0;
 function Watched1() {
   const { control } = useFomContext()
-  const all = useWatch({ control, name: 'lastName' })
-  console.log('watch => Watched1', all)
+  const lastName = useWatch({ control, name: ['lastName', 'lastName2'] })
+  console.log('watch => Watched1', lastName)
 
   childRender++;
 
@@ -48,7 +48,7 @@ function Watched2() {
   const { control } = useFomContext()
   const { watch } = useFormMethods({ control })
 
-  console.log('watch => Watched2', watch('lastName2'))
+  // console.log('watch => Watched2', watch())
 
   childRender2++;
 
@@ -63,21 +63,15 @@ function Watched2() {
 let parentRender = 0;
 function App() {
   const { control, reset, setValue, handleSubmit } = useForm({
+      defaultValues: {
+
+      }
   })
 
   parentRender++;
 
   useEffect(() => {
-      setTimeout(() => {
-          reset({
-              lastName: 'lastName => reset',
-              lastName2: 'lastName2 => reset'
-          })
-      }, 1000)
-      setTimeout(() => {
-          setValue('lastName', 'lastName => setValue')
-          setValue('lastName5', 'lastName5 => setValue')
-      }, 4000)
+
   }, [])
 
   const onSubmit = (data) => {

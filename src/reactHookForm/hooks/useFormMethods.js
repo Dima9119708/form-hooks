@@ -1,4 +1,4 @@
-import useWatchFunction from "./useWatchFunction";
+import useWatchFunction from "./useWatch/useWatchFunction";
 
 const useFormMethods = (props) => {
     const {

@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {emitter} from "./emitter";
+import {emitter} from "../emitter";
 
 const useController = (props) => {
     const {

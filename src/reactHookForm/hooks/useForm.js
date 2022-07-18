@@ -1,6 +1,6 @@
-import {useCallback, useEffect} from "react";
-import {emitter} from "./emitter";
-import useWatchFunction from "./useWatchFunction";
+import {useCallback, useEffect, useRef} from "react";
+import {emitter} from "../emitter";
+import useWatchFunction from "./useWatch/useWatchFunction";
 
 const useForm = (props= {}) => {
     const {
@@ -8,7 +8,7 @@ const useForm = (props= {}) => {
         defaultValues = {}
     } = props
 
-    const control = {
+    const control = useRef({
         mode,
         data: {},
         onChange: (name) => (e) => {
@@ -17,7 +17,7 @@ const useForm = (props= {}) => {
         },
         methods: {},
         defaultValues,
-    }
+    })
 
     const watch = useWatchFunction({ control })
 
@@ -33,7 +33,7 @@ const useForm = (props= {}) => {
         const keys = Object.keys(fields)
 
         if (!keys.length) {
-            return Object.keys(control.data).forEach((key) => emitter.emit(key, undefined))
+            return Object.keys(control.current.data).forEach((key) => emitter.emit(key, undefined))
         }
 
         keys.forEach((key) => emitter.emit(key, fields[key]))
@@ -44,10 +44,10 @@ const useForm = (props= {}) => {
         callback(control.current.data)
     }
 
-    Object.assign(control, { methods: { reset, setValue } })
+    Object.assign(control.current, { methods: { reset, setValue } })
 
     return {
-        control,
+        control: control.current,
         setValue,
         reset,
         watch,

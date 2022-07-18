@@ -1,9 +1,9 @@
-import useForm from "./useForm";
-import useWatch from "./useWatch";
-import useController from "./useController";
-import useFormMethods from "./useFormMethods";
+import useForm from "./hooks/useForm";
+import useWatch from "./hooks/useWatch/useWatch";
+import useController from "./hooks/useController";
+import useFormMethods from "./hooks/useFormMethods";
 import FormProvider from "./FormProvider";
-import useFomContext from "./useFomContext";
+import useFomContext from "./hooks/useFomContext";
 
 export {
     useForm,
