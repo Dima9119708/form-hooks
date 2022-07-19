@@ -46,8 +46,8 @@ const useController = (props) => {
         control,
     } = props
 
-    const { reference, field } = useMemo(() => pathToObject(control.data, name), [])
-    const defaultValue = useMemo(() => pathToObject(control.defaultValues, name), [])
+    const { reference, field } = useMemo(() => pathToObject(control.data, name), [name])
+    const defaultValue = useMemo(() => pathToObject(control.defaultValues, name), [name])
 
     const [value, setValue] = useState(defaultValue.value)
 
