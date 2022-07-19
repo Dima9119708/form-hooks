@@ -15,7 +15,8 @@ const pathToObject = (values, name) => {
 
         if (Number(next) || next === '0') {
             if (reference[current] === undefined) {
-                reference[current] = []
+                reference[current] = Array.from({ length: Number(next) })
+
                 reference = reference[current]
             } else {
                 reference = reference[current]
@@ -28,6 +29,7 @@ const pathToObject = (values, name) => {
                 reference = reference[current]
             } else {
                 referenceEnd = reference
+
                 reference = reference[current]
             }
         }
@@ -46,7 +48,7 @@ const useController = (props) => {
         control,
     } = props
 
-    const { reference, field } = useMemo(() => pathToObject(control.data, name), [name])
+    const { reference, field } = useMemo(() => pathToObject(Object.assign(control.data, JSON.parse(JSON.stringify(control.defaultValues))) , name), [name])
     const defaultValue = useMemo(() => pathToObject(control.defaultValues, name), [name])
 
     const [value, setValue] = useState(defaultValue.value)

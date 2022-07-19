@@ -71,6 +71,7 @@ function App() {
   const { control, reset, setValue, handleSubmit } = useForm({
       defaultValues: {
           root: {
+              field: 'field',
               name: 'TEST defaultValues defaultValues'
           }
       }
@@ -124,7 +125,7 @@ function App() {
           {/*  <Input name="lastName4" control={control} />*/}
 
           <label style={{ fontSize: 10 }}>lastName5</label>
-            <Input name="root.name" control={control} />
+            <Input name="root.1" control={control} />
 
           {/*<label style={{ fontSize: 10 }}>lastName6</label>*/}
           {/*  <Input name="lastName6" control={control} />*/}
