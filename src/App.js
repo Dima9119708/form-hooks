@@ -70,13 +70,18 @@ function App() {
 
   const { control, reset, setValue, handleSubmit } = useForm({
       defaultValues: {
+          root: {
+              name: 'TEST defaultValues defaultValues'
+          }
       }
   })
-console.log('control', control)
+
   parentRender++;
 
   useEffect(() => {
+      reset({
 
+      })
   }, [])
 
   const onSubmit = (data) => {
@@ -119,7 +124,7 @@ console.log('control', control)
           {/*  <Input name="lastName4" control={control} />*/}
 
           <label style={{ fontSize: 10 }}>lastName5</label>
-            <Input name="root.0.lastName5" control={control} />
+            <Input name="root.name" control={control} />
 
           {/*<label style={{ fontSize: 10 }}>lastName6</label>*/}
           {/*  <Input name="lastName6" control={control} />*/}

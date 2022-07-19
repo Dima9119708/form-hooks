@@ -6,30 +6,38 @@ const pathToObject = (values, name) => {
 
     const obj = values
 
-    let nesting = obj
+    let reference = obj
+    let referenceEnd = null
 
     arr.forEach( (str, idx) => {
         const current = arr[idx]
         const next = arr[idx + 1]
 
         if (Number(next) || next === '0') {
-            if (nesting[current] === undefined) {
-                nesting[current] = []
-                nesting = nesting[current]
+            if (reference[current] === undefined) {
+                reference[current] = []
+                reference = reference[current]
             } else {
-                nesting = nesting[current]
+                reference = reference[current]
             }
         } else {
-            if (nesting[current] === undefined) {
-                nesting[current] = idx === arr.length - 1 ? undefined : {}
-                nesting = nesting[current]
+            if (reference[current] === undefined) {
+                reference[current] = (idx === arr.length - 1) ? undefined : {}
+
+                referenceEnd = reference
+                reference = reference[current]
             } else {
-                nesting = nesting[current]
+                referenceEnd = reference
+                reference = reference[current]
             }
         }
     })
 
-    return obj
+    return {
+        field: arr[arr.length - 1],
+        reference: referenceEnd,
+        value: referenceEnd[arr[arr.length - 1]]
+    }
 }
 
 const useController = (props) => {
@@ -37,11 +45,11 @@ const useController = (props) => {
         name,
         control,
     } = props
-    pathToObject(control.defaultValues, name)
-    const fields = control.data
-    const defaultValues = control.defaultValues
 
-    const [value, setValue] = useState(defaultValues[name])
+    const { reference, field } = useMemo(() => pathToObject(control.data, name), [])
+    const defaultValue = useMemo(() => pathToObject(control.defaultValues, name), [])
+
+    const [value, setValue] = useState(defaultValue.value)
 
     useEffect(() => {
         const subscribe = (value) => {
@@ -53,15 +61,8 @@ const useController = (props) => {
         emitter.on(name, subscribe)
     }, [name])
 
-
-    const formatName = useMemo(() => {
-
-        return name
-    }, [name])
-
-    defaultValues[name] = control.defaultValues[name]
-    fields[name] = value
-
+    reference[field] = value
+console.log('control', control)
     return {
         value,
         onChange: control.onChange(name)
