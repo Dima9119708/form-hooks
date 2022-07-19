@@ -70,10 +70,9 @@ function App() {
 
   const { control, reset, setValue, handleSubmit } = useForm({
       defaultValues: {
-          lastName2: ''
       }
   })
-
+console.log('control', control)
   parentRender++;
 
   useEffect(() => {
@@ -101,43 +100,43 @@ function App() {
         <FormProvider control={control}>
 
 
-            <Input name="firstName" control={control} />
+            {/*<Input name="firstName" control={control} />*/}
 
             <p>parent render count: {parentRender}</p>
 
             <div style={{ margin: '0 0 20px 0' }} />
 
-            <label style={{ fontSize: 10 }}>lastName</label>
-            <Input name="lastName" control={control} />
+          {/*  <label style={{ fontSize: 10 }}>lastName</label>*/}
+          {/*  <Input name="lastName" control={control} />*/}
 
-          <label style={{ fontSize: 10 }}>lastName2</label>
-            <Input name="lastName2" control={control} />
+          {/*<label style={{ fontSize: 10 }}>lastName2</label>*/}
+          {/*  <Input name="lastName2" control={control} />*/}
 
-          <label style={{ fontSize: 10 }}>lastName3</label>
-            <Input name="lastName3" control={control} />
+          {/*<label style={{ fontSize: 10 }}>lastName3</label>*/}
+          {/*  <Input name="lastName3" control={control} />*/}
 
-          <label style={{ fontSize: 10 }}>lastName4</label>
-            <Input name="lastName4" control={control} />
+          {/*<label style={{ fontSize: 10 }}>lastName4</label>*/}
+          {/*  <Input name="lastName4" control={control} />*/}
 
           <label style={{ fontSize: 10 }}>lastName5</label>
-            <Input name="root.[0].lastName5" control={control} />
+            <Input name="root.0.lastName5" control={control} />
 
-          <label style={{ fontSize: 10 }}>lastName6</label>
-            <Input name="lastName6" control={control} />
+          {/*<label style={{ fontSize: 10 }}>lastName6</label>*/}
+          {/*  <Input name="lastName6" control={control} />*/}
 
-          <label style={{ fontSize: 10 }}>lastName7</label>
-            <Input name="lastName7" control={control} />
+          {/*<label style={{ fontSize: 10 }}>lastName7</label>*/}
+          {/*  <Input name="lastName7" control={control} />*/}
 
-          <label style={{ fontSize: 10 }}>lastName8</label>
-            <Input name="lastName8" control={control} />
+          {/*<label style={{ fontSize: 10 }}>lastName8</label>*/}
+          {/*  <Input name="lastName8" control={control} />*/}
 
-             <div style={{ margin: '0 0 20px 0' }} />
+          {/*   <div style={{ margin: '0 0 20px 0' }} />*/}
 
 
             <div style={{ margin: '0 0 20px 0' }} />
 
-            <Watched1 />
-            <Watched2 />
+            {/*<Watched1 />*/}
+            {/*<Watched2 />*/}
 
             <button onClick={handleSubmit(onSubmit)}>button</button>
 
