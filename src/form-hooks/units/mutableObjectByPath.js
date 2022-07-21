@@ -1,14 +1,3 @@
-
-
-const inValidPath = (reference, current, next) => {
-    const isInstanceOf = !(reference[current] instanceof Object) || !(reference[current] instanceof Array)
-    const nextElem = reference[current][next] ?? false
-
-console.log('nextElem', next)
-
-    return next && !nextElem && isInstanceOf
-}
-
 export const mutableObjectByPath = (values, path) => {
     const splitPath = path.split('.')
 
@@ -27,6 +16,10 @@ export const mutableObjectByPath = (values, path) => {
 
                 reference = reference[current]
             } else {
+                if (!Array.isArray(reference[current]) ) {
+                    reference[current] = Array.from({ length: Number(next) })
+                }
+
                 reference = reference[current]
             }
         } else {
@@ -36,15 +29,13 @@ export const mutableObjectByPath = (values, path) => {
                 referenceEnd = reference
                 reference = reference[current]
             } else {
+                if (next && !(reference[current] instanceof Object)) {
+                    reference[current] = {}
+                }
+
                 referenceEnd = reference
 
-console.log('reference', reference, current)
-                if (next && reference[next] === undefined) reference[current] = {}
-                if (next && (Number(next) || next === '0')) reference[current] = []
-
-
                 reference = reference[current]
-
             }
         }
     })

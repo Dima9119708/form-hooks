@@ -71,7 +71,7 @@ function App() {
   const { control, reset, setValue, handleSubmit } = useForm({
       defaultValues: {
           root: {
-            name: ''
+            name: null
           }
       }
   })
