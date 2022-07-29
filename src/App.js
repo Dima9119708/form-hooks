@@ -124,7 +124,7 @@ function App() {
           {/*  <Input name="lastName4" control={control} />*/}
 
           <label style={{ fontSize: 10 }}>lastName5</label>
-            <Input name="root.name" control={control} />
+            <Input name="root.name[0][1]" control={control} />
 
           {/*<label style={{ fontSize: 10 }}>lastName6</label>*/}
           {/*  <Input name="lastName6" control={control} />*/}

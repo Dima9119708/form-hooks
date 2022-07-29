@@ -1,5 +1,36 @@
+const formatPath = (path) => {
+    return path.split('').reduce((acc, symbol, idx) => {
+        const prev = path[idx - 1]
+        const next = path[idx + 1]
+
+        if (symbol === '[' && prev === '.') {
+            acc += ''
+        }
+        else if (symbol === ']' && next === '.') {
+            acc += ''
+        }
+        else if (symbol === '[' && prev !== '.') {
+            acc += '.'
+        }
+        else if (symbol === ']' && next !== '.') {
+            acc += ''
+        }
+        else if (symbol === '.' && next === '.') {
+            acc += ''
+        }
+        else if (symbol === '.' && prev === '.') {
+            acc += ''
+        }
+        else {
+            acc += symbol
+        }
+
+        return acc
+    }, '').split('.')
+}
+
 export const mutableObjectByPath = (values, path) => {
-    const splitPath = path.split('.')
+    const splitPath = formatPath(path)
 
     let reference = values
     let referenceEnd = null
