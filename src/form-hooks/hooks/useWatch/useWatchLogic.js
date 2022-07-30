@@ -1,46 +1,37 @@
-import {useCallback, useRef, useState} from "react";
-import {emitter} from "../../emitter";
+import { useCallback, useState } from 'react'
+import { emitter } from '../../emitter'
 
 const useWatchLogic = (props) => {
-    const { control } = props
+  const { control } = props
 
-    const [values, setFields] = useState(control.defaultValues)
+  const [, setFields] = useState({})
 
-    const onSubscribeOneField = useCallback((name) => {
-        const subscribe = (value) => setFields(prevState => {
-            if (prevState[name] === value) return prevState
-            return {...prevState, [name]: value}
-        } )
-        emitter.on(name, subscribe)
-    }, [])
+  const onSubscribeOneField = useCallback((name) => {
+    const subscribe = () => setFields({})
+    emitter.on(name, subscribe)
+  }, [])
 
-    const onSubscribeAllField = useCallback(() => {
-        const keys = Object.keys(control.data)
+  const onSubscribeAllField = useCallback(() => {
+    const keys = Object.keys(control.values)
 
-        keys.forEach(key => {
-            const subscribe = (name) => (value) => {
-                setFields(prevState => {
-                    if (prevState[name] === value) return prevState
-                    return {...prevState, [name]: value}
-                })
-            }
-            emitter.on(key, subscribe(key))
-        })
-    }, [])
+    keys.forEach((key) => {
+      const subscribe = () => setFields({})
+      emitter.on(key, subscribe)
+    })
+  }, [])
 
-    const onSubscribeMultipleField = useCallback((name) => {
-        name.forEach((name) => {
-            const subscribe = (value) => {
-                setFields((prevState) => {
-                    if (prevState[name] === value) return prevState
-                    return {...prevState, [name]: value}
-                })
-            }
-            emitter.on(name, subscribe)
-        })
-    }, [])
+  const onSubscribeMultipleField = useCallback((name) => {
+    name.forEach((name) => {
+      const subscribe = () => setFields({})
+      emitter.on(name, subscribe)
+    })
+  }, [])
 
-    return { values, onSubscribeOneField, onSubscribeAllField, onSubscribeMultipleField }
+  return {
+    onSubscribeOneField,
+    onSubscribeAllField,
+    onSubscribeMultipleField,
+  }
 }
 
 export default useWatchLogic

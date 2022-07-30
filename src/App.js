@@ -1,7 +1,13 @@
-import './App.css';
-import {useEffect} from "react";
-import {useForm, useController, useWatch, useFomContext, useFormMethods, FormProvider} from "./form-hooks";
-
+import './App.css'
+import { useEffect } from 'react'
+import {
+  useForm,
+  useController,
+  useWatch,
+  useFomContext,
+  useFormMethods,
+  FormProvider,
+} from './form-hooks'
 
 const Input = ({ name, control }) => {
   const { value, onChange } = useController({
@@ -12,81 +18,72 @@ const Input = ({ name, control }) => {
   return <input value={value} onChange={onChange} />
 }
 
-let childRender = 0;
+let childRender = 0
 function Watched1() {
   const { control } = useFomContext()
   const lastName = useWatch({ control, name: ['lastName', 'lastName2'] })
 
-  childRender++;
+  childRender++
 
   return (
-      <>
-        <p>child render Watched1 count: {childRender}</p>
-      </>
-  );
+    <>
+      <p>child render Watched1 count: {childRender}</p>
+    </>
+  )
 }
 
-let childRender3 = 0;
+let childRender3 = 0
 function Watched3() {
   const { watch, setValue } = useFomContext()
   // const { watch } = useFormMethods({ control })
-  watch('lastName3')
-  watch(['lastName4', 'lastName5'])
-  watch()
+  console.log()
 
-  useEffect(() => {
+  useEffect(() => {}, [])
 
-  }, [])
-
-  childRender3++;
+  childRender3++
 
   return (
-      <>
-        <p>child render Watched3 count: {childRender3}</p>
-      </>
-  );
+    <>
+      <p>child render Watched3 count: {childRender3}</p>
+    </>
+  )
 }
 
-
-let childRender2 = 0;
+let childRender2 = 0
 function Watched2() {
   const { control } = useFomContext()
   const { watch } = useFormMethods({ control })
-
-  console.log('watch => Watched2', watch())
-
-  childRender2++;
+  console.log('watch', watch('root'))
+  childRender2++
 
   return (
-      <>
-        <p>child render Watched2 count: {childRender2}</p>
-        <Watched3 />
-      </>
-  );
+    <>
+      <p>child render Watched2 count: {childRender2}</p>
+      <Watched3 />
+    </>
+  )
 }
 
-let parentRender = 0;
+let parentRender = 0
 function App() {
-
   const { control, reset, setValue, handleSubmit } = useForm({
-      defaultValues: {
-          root: {
-            name: null
-          }
-      }
+    defaultValues: {
+      root: 'rootrootrootrootrootrootroot',
+      root2: 'sacasc',
+      root3: 'acsscsa',
+    },
   })
 
-  parentRender++;
+  parentRender++
 
   useEffect(() => {
-      reset({
-
-      })
+    reset({
+      root: '',
+      test: '',
+    })
   }, [])
 
-  const onSubmit = (data) => {
-
-  }
+  const onSubmit = (data) => {}
 
   return (
     <div className="App">
@@ -103,13 +100,11 @@ function App() {
           Learn React
         </a>
         <FormProvider control={control}>
+          {/*<Input name="firstName" control={control} />*/}
 
+          <p>parent render count: {parentRender}</p>
 
-            {/*<Input name="firstName" control={control} />*/}
-
-            <p>parent render count: {parentRender}</p>
-
-            <div style={{ margin: '0 0 20px 0' }} />
+          <div style={{ margin: '0 0 20px 0' }} />
 
           {/*  <label style={{ fontSize: 10 }}>lastName</label>*/}
           {/*  <Input name="lastName" control={control} />*/}
@@ -124,33 +119,29 @@ function App() {
           {/*  <Input name="lastName4" control={control} />*/}
 
           <label style={{ fontSize: 10 }}>lastName5</label>
-            <Input name="root.name[0][1]" control={control} />
+          <Input name="root" control={control} />
 
-          {/*<label style={{ fontSize: 10 }}>lastName6</label>*/}
-          {/*  <Input name="lastName6" control={control} />*/}
+          {/*/!*<label style={{ fontSize: 10 }}>lastName6</label>*!/*/}
+          {/*<Input name="root2" control={control} />*/}
 
-          {/*<label style={{ fontSize: 10 }}>lastName7</label>*/}
-          {/*  <Input name="lastName7" control={control} />*/}
+          {/*/!*<label style={{ fontSize: 10 }}>lastName7</label>*!/*/}
+          {/*<Input name="root3" control={control} />*/}
 
-          {/*<label style={{ fontSize: 10 }}>lastName8</label>*/}
-          {/*  <Input name="lastName8" control={control} />*/}
+          {/*/!*<label style={{ fontSize: 10 }}>lastName8</label>*!/*/}
+          {/*/!*  <Input name="lastName8" control={control} />*!/*/}
 
-          {/*   <div style={{ margin: '0 0 20px 0' }} />*/}
+          {/*/!*   <div style={{ margin: '0 0 20px 0' }} />*!/*/}
 
+          {/*<div style={{ margin: '0 0 20px 0' }} />*/}
 
-            <div style={{ margin: '0 0 20px 0' }} />
+          {/*/!*<Watched1 />*!/*/}
+          <Watched2 />
 
-            {/*<Watched1 />*/}
-            {/*<Watched2 />*/}
-
-            <button onClick={handleSubmit(onSubmit)}>button</button>
-
+          <button onClick={handleSubmit(onSubmit)}>button</button>
         </FormProvider>
-
       </header>
-
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
