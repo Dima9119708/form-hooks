@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef } from 'react'
 import { emitter } from '../emitter'
 import useWatchFunction from './useWatch/useWatchFunction'
 import { get } from '../units/get'
+import deepMerge from '../units/deepMerge'
 
 const useForm = (props = {}) => {
   const { mode = 'onChange', defaultValues = {} } = props
@@ -9,6 +10,7 @@ const useForm = (props = {}) => {
   const control = useRef({
     mode,
     values: defaultValues,
+    paths: [],
     onChange: (name) => (e) => {
       const { value } = e.target
       emitter.emit(name, value)
@@ -28,10 +30,12 @@ const useForm = (props = {}) => {
   const setValue = useCallback((name, value) => emitter.emit(name, value), [])
 
   const reset = useCallback((fields = {}) => {
-    Object.assign(control.current.values, fields)
+    deepMerge(control.current.values, fields)
 
     emitter.eventNames().forEach((name) => {
-      emitter.emit(name, get(name, fields))
+      const value = get(name, fields)
+
+      if (value !== undefined) emitter.emit(name, value)
     })
   }, [])
 

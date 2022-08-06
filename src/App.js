@@ -36,7 +36,7 @@ let childRender3 = 0
 function Watched3() {
   const { watch, setValue } = useFomContext()
   // const { watch } = useFormMethods({ control })
-  console.log()
+  // console.log(watch())
 
   useEffect(() => {}, [])
 
@@ -53,7 +53,9 @@ let childRender2 = 0
 function Watched2() {
   const { control } = useFomContext()
   const { watch } = useFormMethods({ control })
-  console.log('watch', watch('root'))
+  watch((values) => {
+    console.log(values)
+  })
   childRender2++
 
   return (
@@ -68,7 +70,13 @@ let parentRender = 0
 function App() {
   const { control, reset, setValue, handleSubmit } = useForm({
     defaultValues: {
-      root: 'rootrootrootrootrootrootroot',
+      root: {
+        name: [{ name: 'TEST15555' }, { name: 'TEST22222' }],
+        name2: 'TEST2',
+        name3: 'TEST2',
+        name4: 'TEST2',
+        name5: 'TEST2',
+      },
       root2: 'sacasc',
       root3: 'acsscsa',
     },
@@ -78,8 +86,10 @@ function App() {
 
   useEffect(() => {
     reset({
-      root: '',
-      test: '',
+      // root: {
+      //   // name: [{ name: 'TEST15555' }],
+      // },
+      // test: '',
     })
   }, [])
 
@@ -119,13 +129,13 @@ function App() {
           {/*  <Input name="lastName4" control={control} />*/}
 
           <label style={{ fontSize: 10 }}>lastName5</label>
-          <Input name="root" control={control} />
+          <Input name="root.name.0.name" control={control} />
 
-          {/*/!*<label style={{ fontSize: 10 }}>lastName6</label>*!/*/}
-          {/*<Input name="root2" control={control} />*/}
+          <label style={{ fontSize: 10 }}>lastName6</label>
+          <Input name="root2" control={control} />
 
-          {/*/!*<label style={{ fontSize: 10 }}>lastName7</label>*!/*/}
-          {/*<Input name="root3" control={control} />*/}
+          <label style={{ fontSize: 10 }}>lastName7</label>
+          <Input name="root3" control={control} />
 
           {/*/!*<label style={{ fontSize: 10 }}>lastName8</label>*!/*/}
           {/*/!*  <Input name="lastName8" control={control} />*!/*/}

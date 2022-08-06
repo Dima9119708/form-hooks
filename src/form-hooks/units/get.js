@@ -8,7 +8,7 @@ export const get = (path, values) => {
   splitPath.forEach((str, idx) => {
     const current = splitPath[idx]
 
-    value = value[current]
+    value = value?.[current] // TODO => разобраться....
 
     if (value === undefined) return
   })

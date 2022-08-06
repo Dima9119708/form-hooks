@@ -4,25 +4,31 @@ import { emitter } from '../../emitter'
 const useWatchLogic = (props) => {
   const { control } = props
 
-  const [, setFields] = useState({})
+  const [, setFields] = useState()
 
   const onSubscribeOneField = useCallback((name) => {
-    const subscribe = () => setFields({})
+    const subscribe = (value) => setFields(value)
     emitter.on(name, subscribe)
   }, [])
 
-  const onSubscribeAllField = useCallback(() => {
-    const keys = Object.keys(control.values)
+  const onSubscribeAllField = useCallback((callback) => {
+    const keys = control.paths
 
-    keys.forEach((key) => {
-      const subscribe = () => setFields({})
-      emitter.on(key, subscribe)
+    keys.forEach((name) => {
+      const subscribe = (value) => {
+        if (callback) {
+          callback(control.values)
+        } else {
+          setFields(value)
+        }
+      }
+      emitter.on(name, subscribe)
     })
   }, [])
 
   const onSubscribeMultipleField = useCallback((name) => {
     name.forEach((name) => {
-      const subscribe = () => setFields({})
+      const subscribe = (value) => setFields(value)
       emitter.on(name, subscribe)
     })
   }, [])

@@ -15,6 +15,7 @@ const useWatchFunction = (props) => {
     const isString = typeof name === 'string'
     const isUndefined = name === undefined
     const isArray = Array.isArray(name)
+    const isFunction = typeof name === 'function'
 
     if (isString && !events.includes(name)) {
       onSubscribeOneField(name)
@@ -25,10 +26,11 @@ const useWatchFunction = (props) => {
     }
 
     if (
-      isUndefined &&
-      events.length !== Object.keys(control.defaultValues).length
+      isFunction ||
+      isUndefined
+      // events.length !== Object.keys(control.values).length
     ) {
-      onSubscribeAllField()
+      onSubscribeAllField(name)
     }
 
     if (isString) return get(name, control.values)

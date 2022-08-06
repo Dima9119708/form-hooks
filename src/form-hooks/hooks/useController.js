@@ -5,10 +5,11 @@ import { mutableObjectByPath } from '../units/mutableObjectByPath'
 const useController = (props) => {
   const { name, control } = props
 
-  const { reference, property, defaultValue } = useMemo(
-    () => mutableObjectByPath(control.values, name),
-    [name]
-  )
+  const { reference, property, defaultValue } = useMemo(() => {
+    emitter.emit(name, 'sacascsac')
+    control.paths.push(name)
+    return mutableObjectByPath(control.values, name)
+  }, [name])
 
   const [value, setValue] = useState(defaultValue)
 
