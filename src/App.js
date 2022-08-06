@@ -1,156 +1,44 @@
-import './App.css'
-import { useEffect } from 'react'
+import React from 'react'
+import ExampleWatch from './examples/example-watch/Example-watch'
 import {
-  useForm,
-  useController,
-  useWatch,
-  useFomContext,
-  useFormMethods,
-  FormProvider,
-} from './form-hooks'
+  Box,
+  Container,
+  createTheme,
+  CssBaseline,
+  ThemeProvider,
+} from '@mui/material'
 
-const Input = ({ name, control }) => {
-  const { value, onChange } = useController({
-    name,
-    control,
-  })
-
-  return <input value={value} onChange={onChange} />
-}
-
-let childRender = 0
-function Watched1() {
-  const { control } = useFomContext()
-  const lastName = useWatch({ control, name: ['lastName', 'lastName2'] })
-
-  childRender++
-
-  return (
-    <>
-      <p>child render Watched1 count: {childRender}</p>
-    </>
-  )
-}
-
-let childRender3 = 0
-function Watched3() {
-  const { watch, setValue } = useFomContext()
-  // const { watch } = useFormMethods({ control })
-  // console.log(watch())
-
-  useEffect(() => {}, [])
-
-  childRender3++
-
-  return (
-    <>
-      <p>child render Watched3 count: {childRender3}</p>
-    </>
-  )
-}
-
-let childRender2 = 0
-function Watched2() {
-  const { control } = useFomContext()
-  const { watch } = useFormMethods({ control })
-  watch((values) => {
-    console.log(values)
-  })
-  childRender2++
-
-  return (
-    <>
-      <p>child render Watched2 count: {childRender2}</p>
-      <Watched3 />
-    </>
-  )
-}
-
-let parentRender = 0
-function App() {
-  const { control, reset, setValue, handleSubmit } = useForm({
-    defaultValues: {
-      root: {
-        name: [{ name: 'TEST15555' }, { name: 'TEST22222' }],
-        name2: 'TEST2',
-        name3: 'TEST2',
-        name4: 'TEST2',
-        name5: 'TEST2',
+const theme = createTheme({
+  typography: {
+    htmlFontSize: 10,
+  },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        html: {
+          fontSize: '62.5%',
+        },
+        p: {
+          margin: 0,
+        },
       },
-      root2: 'sacasc',
-      root3: 'acsscsa',
     },
-  })
+  },
+})
 
-  parentRender++
-
-  useEffect(() => {
-    reset({
-      // root: {
-      //   // name: [{ name: 'TEST15555' }],
-      // },
-      // test: '',
-    })
-  }, [])
-
-  const onSubmit = (data) => {}
-
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <FormProvider control={control}>
-          {/*<Input name="firstName" control={control} />*/}
+    <ThemeProvider theme={theme}>
+      <Box>
+        <CssBaseline />
 
-          <p>parent render count: {parentRender}</p>
-
-          <div style={{ margin: '0 0 20px 0' }} />
-
-          {/*  <label style={{ fontSize: 10 }}>lastName</label>*/}
-          {/*  <Input name="lastName" control={control} />*/}
-
-          {/*<label style={{ fontSize: 10 }}>lastName2</label>*/}
-          {/*  <Input name="lastName2" control={control} />*/}
-
-          {/*<label style={{ fontSize: 10 }}>lastName3</label>*/}
-          {/*  <Input name="lastName3" control={control} />*/}
-
-          {/*<label style={{ fontSize: 10 }}>lastName4</label>*/}
-          {/*  <Input name="lastName4" control={control} />*/}
-
-          <label style={{ fontSize: 10 }}>lastName5</label>
-          <Input name="root.name.0.name" control={control} />
-
-          <label style={{ fontSize: 10 }}>lastName6</label>
-          <Input name="root2" control={control} />
-
-          <label style={{ fontSize: 10 }}>lastName7</label>
-          <Input name="root3" control={control} />
-
-          {/*/!*<label style={{ fontSize: 10 }}>lastName8</label>*!/*/}
-          {/*/!*  <Input name="lastName8" control={control} />*!/*/}
-
-          {/*/!*   <div style={{ margin: '0 0 20px 0' }} />*!/*/}
-
-          {/*<div style={{ margin: '0 0 20px 0' }} />*/}
-
-          {/*/!*<Watched1 />*!/*/}
-          <Watched2 />
-
-          <button onClick={handleSubmit(onSubmit)}>button</button>
-        </FormProvider>
-      </header>
-    </div>
+        <Container>
+          <Box sx={{ mb: 15 }}>
+            <ExampleWatch />
+          </Box>
+        </Container>
+      </Box>
+    </ThemeProvider>
   )
 }
 

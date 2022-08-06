@@ -1,42 +1,37 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useContext, useState } from 'react'
 import { emitter } from '../../emitter'
+import { FormContext } from '../../form-context'
 
 const useWatchLogic = (props) => {
   const { control } = props
 
   const [, setFields] = useState()
 
-  const onSubscribeOneField = useCallback((name) => {
-    const subscribe = (value) => setFields(value)
+  const onWatchOneField = useCallback((name) => {
+    const subscribe = () => setFields({})
     emitter.on(name, subscribe)
   }, [])
 
-  const onSubscribeAllField = useCallback((callback) => {
+  const onWatchAllField = useCallback(() => {
     const keys = control.paths
 
     keys.forEach((name) => {
-      const subscribe = (value) => {
-        if (callback) {
-          callback(control.values)
-        } else {
-          setFields(value)
-        }
-      }
+      const subscribe = () => setFields({})
       emitter.on(name, subscribe)
     })
   }, [])
 
-  const onSubscribeMultipleField = useCallback((name) => {
+  const onWatchMultipleField = useCallback((name) => {
     name.forEach((name) => {
-      const subscribe = (value) => setFields(value)
+      const subscribe = () => setFields({})
       emitter.on(name, subscribe)
     })
   }, [])
 
   return {
-    onSubscribeOneField,
-    onSubscribeAllField,
-    onSubscribeMultipleField,
+    onWatchOneField,
+    onWatchAllField,
+    onWatchMultipleField,
   }
 }
 

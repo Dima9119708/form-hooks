@@ -1,12 +1,13 @@
-import {useContext} from "react";
-import {FormContext} from "../form-context";
-import useWatchFunction from "./useWatch/useWatchFunction";
+import { useContext } from 'react'
+import { FormContext } from '../form-context'
+import useWatchFunction from './useWatch/useWatchFunction'
 
 const useFomContext = () => {
-    const context = useContext(FormContext)
-    const watch = useWatchFunction({ control: context.control })
+  const control = useContext(FormContext)
 
-    return { control: context.control, ...context.control.methods, watch }
+  const watch = useWatchFunction({ control })
+
+  return { control: control, ...control.methods, watch }
 }
 
 export default useFomContext

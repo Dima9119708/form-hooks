@@ -1,12 +1,15 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import { emitter } from '../emitter'
 import { mutableObjectByPath } from '../units/mutableObjectByPath'
+import { FormContext } from '../form-context'
 
 const useController = (props) => {
-  const { name, control } = props
+  const { name, control: controlProps } = props
+
+  const controlContext = useContext(FormContext)
+  const control = controlProps || controlContext
 
   const { reference, property, defaultValue } = useMemo(() => {
-    emitter.emit(name, 'sacascsac')
     control.paths.push(name)
     return mutableObjectByPath(control.values, name)
   }, [name])
@@ -15,16 +18,12 @@ const useController = (props) => {
 
   useEffect(() => {
     const subscribe = (value) => {
-      setValue((prevState) => {
-        if (prevState === value) return prevState
-        return value
-      })
+      reference[property] = value
+      setValue(value)
     }
 
     emitter.on(name, subscribe)
   }, [name])
-
-  reference[property] = value
 
   return {
     value,

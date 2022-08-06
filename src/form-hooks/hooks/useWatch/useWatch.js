@@ -1,18 +1,22 @@
-import { useEffect, useMemo } from 'react'
+import { useContext, useEffect, useMemo } from 'react'
 import useWatchLogic from './useWatchLogic'
 import { get } from '../../units/get'
+import { FormContext } from '../../form-context'
 
 const useWatch = (props = {}) => {
-  const { name, control = {} } = props
+  const { name, control: controlProps } = props
 
-  const { onSubscribeAllField, onSubscribeMultipleField, onSubscribeOneField } =
+  const controlContext = useContext(FormContext)
+  const control = controlProps || controlContext
+
+  const { onWatchAllField, onWatchMultipleField, onWatchOneField } =
     useWatchLogic({ control })
 
   useEffect(() => {
-    if (typeof name === 'string') return onSubscribeOneField(name)
-    if (name === undefined) return onSubscribeAllField()
-    if (Array.isArray(name)) return onSubscribeMultipleField(name)
-  }, [name])
+    if (typeof name === 'string') return onWatchOneField(name)
+    if (name === undefined) return onWatchAllField()
+    if (Array.isArray(name)) return onWatchMultipleField(name)
+  }, [])
 
   return useMemo(() => {
     if (typeof name === 'string') return get(name, control.values)

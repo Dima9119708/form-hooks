@@ -19,7 +19,7 @@ const useForm = (props = {}) => {
     defaultValues: JSON.parse(JSON.stringify(defaultValues)),
   })
 
-  const watch = useWatchFunction({ control })
+  const watch = useWatchFunction({ control: control.current })
 
   useEffect(() => {
     return function clear() {
